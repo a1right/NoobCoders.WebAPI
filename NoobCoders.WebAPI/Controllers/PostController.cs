@@ -26,7 +26,7 @@ namespace NoobCoders.WebAPI.Controllers
         public async Task<ActionResult<PostResponse>> Posts()
         {
             var posts = await _recordsService.GetPosts();
-            var response = posts.Select(p => new PostResponse().MapFrom(p)).ToList();
+            var response = posts.Select(post => new PostResponse().MapFrom(post)).ToList();
             return Ok(response);
         }
 
@@ -43,7 +43,7 @@ namespace NoobCoders.WebAPI.Controllers
             {
                 Id = post.Id,
                 CreatedDate = post.CreatedDate,
-                Rubrics = post.PostRubrics.Select(x => x.Rubric).ToList(),
+                Rubrics = post.PostRubrics.Select(post => new RubricDto().MapFrom(post.Rubric)).ToList(),
                 Text = post.Text,
             };
             return Ok(result);

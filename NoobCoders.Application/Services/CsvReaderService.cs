@@ -20,7 +20,7 @@ namespace NoobCoders.Application.Services
             using (var reader = new StreamReader(configuration["PathToInitialDataFile"]))
             using (var csv = new CsvReader(reader, config))
             {
-                var records = csv.GetRecords<RecordTemplate>().ToList();
+                var records = csv.GetRecords<RecordDto>().ToList();
                 context.Rubrics.AddRangeAsync(ParseRubrics(records));
                 context.SaveChangesAsync(CancellationToken.None);
                 var posts = new List<Post>();
@@ -47,9 +47,9 @@ namespace NoobCoders.Application.Services
             }
         }
 
-        private HashSet<Rubric> ParseRubrics(IEnumerable<RecordTemplate> records)
+        private HashSet<Rubric> ParseRubrics(IEnumerable<RecordDto> records)
         {
-            var result = new HashSet<Rubric>();
+            var result = new HashSet<Rubric>(new MyRubricComparer());
             foreach (var record in records)
             {
                 foreach (var rubric in record.Rubrics)
@@ -58,6 +58,21 @@ namespace NoobCoders.Application.Services
                 }
             }
             return result;
+        }
+
+        private class MyRubricComparer : IEqualityComparer<Rubric>
+        {
+            public bool Equals(Rubric left, Rubric right)
+            {
+                if(ReferenceEquals(left, right)) return true;
+                if (left.Name == right.Name) return true;
+                return false;
+            }
+
+            public int GetHashCode(Rubric obj)
+            {
+                return obj.Name.GetHashCode();
+            }
         }
     }
 }

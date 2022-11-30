@@ -4,7 +4,7 @@ using CsvHelper.Configuration.Attributes;
 
 namespace NoobCoders.Application.Models
 {
-    public class RecordTemplate
+    public class RecordDto
     {
         [Name("text")]
         public string Text { get; set; }

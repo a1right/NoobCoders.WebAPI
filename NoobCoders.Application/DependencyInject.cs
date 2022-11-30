@@ -15,13 +15,13 @@ namespace NoobCoders.Application
     {
         public static IServiceCollection AddCsvReader(this IServiceCollection services)
         {
-            services.AddScoped<ICsvReader>(provider => provider.GetService<CsvReaderService>());
+            services.AddScoped<ICsvReader, CsvReaderService>();
             return services;
         }
 
         public static IServiceCollection AddRecordsService(this IServiceCollection services)
         {
-            services.AddSingleton<IRecordsService>(provider => provider.GetService<RecordsService>());
+            services.AddScoped<IRecordsService, RecordsService>();
             return services;
         }
     }
