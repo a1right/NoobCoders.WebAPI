@@ -28,7 +28,7 @@ namespace NoobCodersFullTextSearchRepository
 
             services.AddSingleton<IElasticClient>(client);
 
-            CreateIndex(client, defaultIndex);
+            //CreateIndex(client, defaultIndex);
         }
 
         private static void AddDefaultMappings(ConnectionSettings settings)

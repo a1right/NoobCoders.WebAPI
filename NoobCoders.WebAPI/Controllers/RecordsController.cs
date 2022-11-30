@@ -40,16 +40,9 @@ namespace NoobCoders.WebAPI.Controllers
             return Ok(result);
         }
         [HttpDelete("/api/[controller]/{id}")]
-        public async Task<ActionResult> Post(long id, CancellationToken cancellationToken)
+        public async Task<ActionResult> Post(long id)
         {
-            var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-            if (post is null)
-                return NotFound();
-            var rubrics = await _context.PostRubrics.Where(x => x.PostId == id).ToListAsync(cancellationToken);
-            _context.PostRubrics.RemoveRange(rubrics);
-            _context.Posts.Remove(post);
-            var response = await _elasticsearchClient.DeleteAsync<Post>(id.ToString());
-            await _context.SaveChangesAsync(cancellationToken);
+            await _recordsService.RemovePost(id);
             return Ok();
         } 
         #endregion

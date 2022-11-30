@@ -1,5 +1,4 @@
 using Nest;
-using NoobCoders.WebAPI.Data;
 using NoobCoders.Application;
 using NoobCoders.Application.Interfaces;
 using NoobCoders.Application.Services;
@@ -26,14 +25,20 @@ namespace NoobCoders.WebAPI
             builder.Services.AddRecordsService();
             var app = builder.Build();
 
-                var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<PostsDbContext>() ;
-                var csvReader = app.Services.GetService<ICsvReader>();
+            //var context = app.Services.CreateScope().ServiceProvider.GetService<PostsDbContext>();
+            var csvReader = app.Services.GetService<ICsvReader>();
+            var elasticClient = app.Services.GetService<IElasticClient>();
+            using (var context = app.Services.CreateScope().ServiceProvider.GetService<PostsDbContext>())
+            {
                 DbInitializer.Initialize(context, app.Configuration, csvReader);
-                ElasticInitializer.Initialize(app.Services.GetService<IElasticClient>(), context, app.Configuration);
+                ElasticInitializer.Initialize(elasticClient, context, app.Configuration);
+            }
+            //using (var context = app.Services.CreateScope().ServiceProvider.GetService<PostsDbContext>())
+            //{
+            //    ElasticInitializer.Initialize(elasticClient, context, app.Configuration);
+            //}
+            
 
-            //System.Diagnostics.Process.Start(app.Configuration["ELKConfiguration:LocalExecutablePath"]);
-
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
