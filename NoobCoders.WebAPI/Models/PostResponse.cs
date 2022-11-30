@@ -19,10 +19,5 @@ namespace NoobCoders.WebAPI.Models
 
             return this;
         }
-
-        public IEnumerable<PostResponse> MapFrom(IEnumerable<Post> posts)
-        {
-            return posts.Select(post => new PostResponse().MapFrom(post)).ToList();
-        }
     }
 }

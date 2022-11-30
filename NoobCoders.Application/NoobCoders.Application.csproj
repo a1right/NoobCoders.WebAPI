@@ -19,8 +19,4 @@
     <ProjectReference Include="..\NoobCoders.Domain\NoobCoders.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-  </ItemGroup>
-
 </Project>
