@@ -10,30 +10,23 @@ namespace NoobCodersFullTextSearchRepository
         public static void Initialize(IElasticClient client, IPostsDbContext context, IConfiguration configuration)
         {
             var index = configuration["ELKConfiguration:Index"];
-            client.Indices.Delete(index);
             if (client.Indices.Exists(index).Exists)
             {
                 return;
             }
             var posts = context.Posts.ToList();
-            _ = client.Indices.Create(index, index => index.Map<Post>(p => p.AutoMap()));
-            //foreach (var post in posts)
-            //{
-            //    client.Create(post, x => x.Index("posts"));
-            //}
-            BulkAll(client, posts, index);
+            CreateIndex(client, index);
+            IndexAll(client, posts, index);
         }
 
-        private static void BulkAll(IElasticClient client, IEnumerable<Post> posts, string index)
+        private static void IndexAll(IElasticClient client, IEnumerable<Post> posts, string index)
         {
-            var observableBulk = client.BulkAll<Post>(posts, p => p
-                .MaxDegreeOfParallelism(8)
-                .BackOffTime(TimeSpan.FromSeconds(10))
-                .BackOffRetries(2)
-                .Size(400)
-                .RefreshOnCompleted()
-                .Index(index)
-            );
+            client.IndexMany(posts, index);
+        }
+
+        private static void CreateIndex(IElasticClient client, string index)
+        {
+            client.Indices.Create(index, index => index.Map<Post>(p => p.AutoMap()));
         }
 
     }

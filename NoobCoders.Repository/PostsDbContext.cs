@@ -17,10 +17,9 @@ namespace NoobCoders.Repository
             {
                 modelBuilder.UseCollation("Cyrillic_General_100_CI_AS_KS_WS_SC");
                 modelBuilder.ApplyConfiguration(new PostConfiguration())
-                    .ApplyConfiguration(new RubricConfiguration())
-                    .ApplyConfiguration(new PostRubricConfiguration());
+                            .ApplyConfiguration(new RubricConfiguration())
+                            .ApplyConfiguration(new PostRubricConfiguration());
                 base.OnModelCreating(modelBuilder);
-
             }
         }
 }

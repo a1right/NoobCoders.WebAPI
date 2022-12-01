@@ -1,7 +1,5 @@
-﻿using Nest;
-using NoobCoders.Domain;
+﻿using NoobCoders.Domain;
 using NoobCoders.WebAPI.Models;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace NoobCoders.WebAPI.Common
 {
@@ -11,14 +9,28 @@ namespace NoobCoders.WebAPI.Common
         {
             return posts.Select(post => new PostResponse().MapFrom(post)).ToList();
         }
-        public static PostResponse MapToResponse(this Post post)
+        public static PostResponse MapToResponse(this Post rubric)
         {
             var response = new PostResponse()
             {
-                Id = post.Id,
-                Text = post.Text,
-                CreatedDate = post.CreatedDate,
-                Rubrics = post.PostRubrics.Select(pr => new RubricDto().MapFrom(pr.Rubric)).ToList(),
+                Id = rubric.Id,
+                Text = rubric.Text,
+                CreatedDate = rubric.CreatedDate,
+                Rubrics = rubric.PostRubrics.Select(pr => new RubricDto().MapFrom(pr.Rubric)).ToList(),
+            };
+            return response;
+        }
+        public static IEnumerable<RubricResponse> MapToResponse(this IEnumerable<Rubric> rubrics)
+        {
+            return rubrics.Select(rubric => new RubricResponse().MapFrom(rubric)).ToList();
+        }
+        public static RubricResponse MapToResponse(this Rubric rubric)
+        {
+            var response = new RubricResponse()
+            {
+                Id = rubric.Id,
+                Name = rubric.Name,
+                RubricPosts = rubric.RubricPosts.Select(rp => new PostDto().MapFrom(rp.Post)).ToList(),
             };
             return response;
         }

@@ -1,5 +1,5 @@
 ﻿
-namespace NoobCoders.Application.Common.Exception
+namespace NoobCoders.Application.Common.Exceptions
 {
     public class NotFoundException : System.Exception
     {

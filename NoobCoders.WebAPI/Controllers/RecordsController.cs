@@ -1,8 +1,5 @@
-﻿using Nest;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using NoobCoders.Application.Interfaces;
-using NoobCoders.Domain;
 using NoobCoders.WebAPI.Common;
 using NoobCoders.WebAPI.Models;
 
@@ -12,19 +9,12 @@ namespace NoobCoders.WebAPI.Controllers
     [Route("api/[controller]")]
     public class RecordsController : ControllerBase
     {
-        private readonly IPostsDbContext _context;
-        private readonly IElasticClient _elasticsearchClient;
         private readonly IRecordsService _recordsService;
 
-        public RecordsController(IPostsDbContext context, IElasticClient elasticsearchClient, IRecordsService recordsService)
-        {
-            _context = context;
-            _elasticsearchClient = elasticsearchClient;
-            _recordsService = recordsService;
-        }
+        public RecordsController(IRecordsService recordsService) => _recordsService = recordsService;
 
         #region Posts
-        [HttpGet]
+        [HttpGet("/api/[controller]/posts")]
         public async Task<ActionResult<PostResponse>> Posts()
         {
             var posts = await _recordsService.GetPosts();
@@ -32,27 +22,50 @@ namespace NoobCoders.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("/api/[controller]/posts/{id}")]
         public async Task<ActionResult<PostResponse>> PostDetails(long id)
         {
             var post = await _recordsService.GetPostDetais(id);
             var result = post.MapToResponse();
             return Ok(result);
         }
-        [HttpDelete("/api/[controller]/{id}")]
-        public async Task<ActionResult> Post(long id)
+        [HttpDelete("/api/[controller]/posts/{id}")]
+        public async Task<ActionResult> PostDelete(long id)
         {
-            await _recordsService.RemovePost(id);
+            await _recordsService.DeletePost(id);
             return Ok();
         } 
         #endregion
 
-        [HttpGet("/api/[controller]/text-search/{text}")]
+        [HttpGet("/api/[controller]/posts/contains/{text}")]
         public async Task<ActionResult<List<PostResponse>>> Posts(string text)
         {
-            var posts = await _recordsService.GetPostByText(text);
+            var posts = await _recordsService.GetPostsContainsSubstring(text);
             var result = posts.MapToResponse();
             return Ok(result);
         }
+
+        #region Rubric
+        [HttpGet("/api/[controller]/rubrics")]
+        public async Task<ActionResult<PostResponse>> Rubrics()
+        {
+            var rubrics = await _recordsService.GetRubrics();
+            var result = rubrics.MapToResponse();
+            return Ok(result);
+        }
+        [HttpGet("/api/[controller]/rubrics/{id}")]
+        public async Task<ActionResult<PostResponse>> RubricDetails(long id)
+        {
+            var rubric = await _recordsService.GetRubricDetails(id);
+            var result = rubric.MapToResponse();
+            return Ok(result);
+        }
+        [HttpDelete("/api/[controller]/rubrics/{id}")]
+        public async Task<ActionResult> RubricDelete(long id)
+        {
+            await _recordsService.DeleteRubric(id);
+            return Ok();
+        }
+        #endregion
     }
 }

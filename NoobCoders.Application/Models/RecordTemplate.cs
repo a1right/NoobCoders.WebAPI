@@ -1,10 +1,11 @@
 ﻿
 
 using CsvHelper.Configuration.Attributes;
+using NoobCoders.Application.Interfaces;
 
 namespace NoobCoders.Application.Models
 {
-    public class RecordDto
+    public class RecordTemplate
     {
         [Name("text")]
         public string Text { get; set; }

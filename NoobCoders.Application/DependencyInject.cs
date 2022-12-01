@@ -15,7 +15,7 @@ namespace NoobCoders.Application
     {
         public static IServiceCollection AddCsvReader(this IServiceCollection services)
         {
-            services.AddScoped<ICsvReader, CsvReaderService>();
+            services.AddSingleton<ICsvReader, CsvReaderService>();
             return services;
         }
 

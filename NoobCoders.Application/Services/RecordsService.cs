@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Nest;
-using NoobCoders.Application.Common.Exception;
+using NoobCoders.Application.Common.Exceptions;
 using NoobCoders.Application.Interfaces;
 using NoobCoders.Domain;
 
@@ -35,7 +30,7 @@ namespace NoobCoders.Application.Services
                                        .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task RemovePost(long id, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task DeletePost(long id, CancellationToken cancellationToken = default(CancellationToken))
         {
             var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
             if (post is null)
@@ -47,7 +42,7 @@ namespace NoobCoders.Application.Services
             await _elasticClient.DeleteAsync<Post>(post.Id, null, cancellationToken);
         }
 
-        public async Task<List<Post>> GetPostByText(string text, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<List<Post>> GetPostsContainsSubstring(string text, CancellationToken cancellationToken = default(CancellationToken))
         {
             var posts = await _elasticClient.SearchAsync<Post>(post =>
                 post.Index("posts").Query(q =>
@@ -63,6 +58,37 @@ namespace NoobCoders.Application.Services
             return result;
         }
 
+        public async Task<List<Rubric>> GetRubrics(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await _context.Rubrics.Include(r => r.RubricPosts)
+                                         .ThenInclude(rp => rp.Post)
+                                         .ToListAsync(cancellationToken);
+        }
+        public async Task<Rubric> GetRubricDetails(long id, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var result =  await _context.Rubrics.Include(r => r.RubricPosts)
+                                                       .ThenInclude(rp => rp.Post)
+                                                       .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+            if (result is null)
+                throw new NotFoundException(nameof(Rubric), id);
+            return result;
+        }
+
+        public async Task DeleteRubric(long id, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var rubric = await _context.Rubrics.Include(r => r.RubricPosts)
+                                               .ThenInclude(rp => rp.Post)
+                                               .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+            if (rubric is null)
+            {
+                throw new NotFoundException(nameof(Rubric), id);
+            }
+            var chainigEntities = await _context.PostRubrics.Where(pr => pr.RubricId == id)
+                                                                           .ToListAsync(cancellationToken);
+            _context.Rubrics.Remove(rubric);
+            _context.PostRubrics.RemoveRange(chainigEntities);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
 
     }
 }

@@ -27,24 +27,15 @@ namespace NoobCodersFullTextSearchRepository
             var client = new ElasticClient(settings);
 
             services.AddSingleton<IElasticClient>(client);
-
-            //CreateIndex(client, defaultIndex);
         }
 
         private static void AddDefaultMappings(ConnectionSettings settings)
         {
-            settings
-                .DefaultMappingFor<Post>(m => m
+            settings.DefaultMappingFor<Post>(post => post
                     .Ignore(p => p.PostRubrics)
                     .Ignore(p => p.CreatedDate)
                 );
         }
-
-        private static void CreateIndex(IElasticClient client, string indexName)
-        {
-            _ = client.Indices.Create(indexName,
-                index => index.Map<Post>(p => p.AutoMap())
-            );
-        }
+        
     }
 }
