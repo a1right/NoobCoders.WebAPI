@@ -14,7 +14,7 @@
 
 
 
-## Функционал:
+## Функционал
 
 **[GET]**
   * api/records/posts                 - получить список всех сообщений
@@ -29,4 +29,16 @@
   
   ![image](https://user-images.githubusercontent.com/24682568/205158639-4979b521-bbe5-4b64-9e68-78a370bd37d9.png)
   
-  
+## Для работы приложения потребуется
+
+  1. **MS SQL Server**
+  2. **ElasticSearch**
+  3. "CsvHelper" Version="30.0.1"  
+  4. "Elastic.Apm.NetCoreAll" Version="1.18.0"  
+  5. "NEST" Version="7.17.5"  
+  6. "Swashbuckle.AspNetCore" Version="6.2.3"  
+  7. Microsoft.EntityFrameworkCore" Version="7.0.0"  
+  8. Microsoft.EntityFrameworkCore.Design Version="7.0.0"  
+  9. Microsoft.EntityFrameworkCore.SqlServer Version="7.0.0"  
+    
+    
