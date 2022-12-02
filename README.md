@@ -33,12 +33,5 @@
 
   1. **MS SQL Server**
   2. **ElasticSearch**
-  3. "CsvHelper" Version="30.0.1"  
-  4. "Elastic.Apm.NetCoreAll" Version="1.18.0"  
-  5. "NEST" Version="7.17.5"  
-  6. "Swashbuckle.AspNetCore" Version="6.2.3"  
-  7. Microsoft.EntityFrameworkCore" Version="7.0.0"  
-  8. Microsoft.EntityFrameworkCore.Design Version="7.0.0"  
-  9. Microsoft.EntityFrameworkCore.SqlServer Version="7.0.0"  
-    
-    
+
+
