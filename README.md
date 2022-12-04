@@ -17,17 +17,21 @@
 ## Функционал
 
 **[GET]**
-  * api/records/posts                 - получить список всех сообщений
-  * api/records/post/{id}             - получить сообщение по значению id
-  * api/records/posts/contains/{text} - получить 20 сообщений, содержащих строку {text}, отсортированных по дате создания
-  * api/records/rubrics               - получить список всех рубрик
-  * api/records/rubrics/{id}          - получить рубрику по значению id  
+  * api/records/posts                   - получить список всех сообщений
+  * api/records/post/{id}               - получить сообщение по значению id
+  * api/records/posts/contains/{text}   - получить 20 сообщений, содержащих строку {text}, отсортированных по дате создания
+  * api/records/rubrics                 - получить список всех рубрик
+  * api/records/rubrics/{id}            - получить рубрику по значению id  
+
+**[POST]**
+  * api/records/posts/{rubricId}/{text} - создать пост с текстом {text} в рубрике {rubricId}
   
   **[DELETE]**
-  + api/records/posts/{id}            - удалить сообщение по значению id
-  + api/records/rubrics/{id}          - удалить рубрику по значению id
+  + api/records/posts/{id}              - удалить сообщение по значению id
+  + api/records/rubrics/{id}            - удалить рубрику по значению id
   
-  ![image](https://user-images.githubusercontent.com/24682568/205158639-4979b521-bbe5-4b64-9e68-78a370bd37d9.png)
+  ![image](https://user-images.githubusercontent.com/24682568/205496793-a8a44483-e0eb-4aa9-ae34-f7cc48545b9a.png)
+
   
 ## Для работы приложения потребуется
 
