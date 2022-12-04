@@ -27,7 +27,7 @@
   * api/records/posts/{rubricId}/{text} - создать пост с текстом {text} в рубрике {rubricId}
   * api/records/rubrics/{name}          - создать рубрику с именем {name}
   
-  **[PUT]**
+  **[PATCH]**
   * api/records/posts/{id}/{newText}    - заменить текст поста со значением id = {id} на новый текст {newText}
   * api/records/rubrics/{id}/{newName}  - заменить имя рубрики со значением id = {id} на новое имя {newName}
   
@@ -35,7 +35,7 @@
   + api/records/posts/{id}              - удалить сообщение по значению id
   + api/records/rubrics/{id}            - удалить рубрику по значению id
   
-  ![image](https://user-images.githubusercontent.com/24682568/205504982-b19994bf-bd74-4473-8bca-1370a185abab.png)
+  ![image](https://user-images.githubusercontent.com/24682568/205509983-ec1454ed-e376-4c0b-8a01-a66359e6658d.png)
 
   
 ## Для работы приложения потребуется
