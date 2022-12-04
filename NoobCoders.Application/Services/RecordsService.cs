@@ -27,7 +27,7 @@ namespace NoobCoders.Application.Services
         {
             return await _context.Posts.Include(p => p.PostRubrics)
                                        .ThenInclude(pr => pr.Rubric)
-                                       .FirstOrDefaultAsync(cancellationToken);
+                                       .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 
         public async Task DeletePost(long id, CancellationToken cancellationToken = default(CancellationToken))
@@ -40,6 +40,20 @@ namespace NoobCoders.Application.Services
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync(cancellationToken);
             await _elasticClient.DeleteAsync<Post>(post.Id, null, cancellationToken);
+        }
+        public async Task<long> CreatePost(string text, long rubricId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var post = new Post() { Text = text, CreatedDate = DateTime.Now };
+            var rubric = await _context.Rubrics.FirstOrDefaultAsync(r => r.Id == rubricId, cancellationToken);
+            var postRubric = new PostRubric()
+            {
+                Post = post,
+                Rubric = rubric,
+            };
+            await _context.PostRubrics.AddAsync(postRubric, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            await _elasticClient.IndexAsync(post, request => request.Index<Post>(), cancellationToken);
+            return post.Id;
         }
 
         public async Task<List<Post>> GetPostsContainsSubstring(string text, CancellationToken cancellationToken = default(CancellationToken))

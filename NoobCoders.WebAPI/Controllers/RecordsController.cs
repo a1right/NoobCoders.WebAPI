@@ -29,6 +29,13 @@ namespace NoobCoders.WebAPI.Controllers
             var result = post.MapToResponse();
             return Ok(result);
         }
+
+        [HttpPost("/api/[controller]/posts/{rubricId}/{text}")]
+        public async Task<ActionResult<long>> CreatePost(string text, long rubricId)
+        {
+            var postId = await _recordsService.CreatePost(text, rubricId);
+            return Ok(postId);
+        }
         [HttpDelete("/api/[controller]/posts/{id}")]
         public async Task<ActionResult> PostDelete(long id)
         {
