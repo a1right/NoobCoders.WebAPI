@@ -2,7 +2,6 @@
 using NoobCoders.Application.Interfaces;
 using NoobCoders.WebAPI.Common;
 using NoobCoders.WebAPI.Models;
-using NoobCoders.Application.Services;
 
 namespace NoobCoders.WebAPI.Controllers
 {
