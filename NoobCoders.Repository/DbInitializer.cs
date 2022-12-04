@@ -9,7 +9,6 @@ namespace NoobCoders.Repository
     {
         public void Initialize(PostsDbContext context, IConfiguration configuration, ICsvReader reader)
         {
-            context.Database.EnsureDeleted();
             var isExists = !context.Database.EnsureCreated();
             if (isExists)
                 return;

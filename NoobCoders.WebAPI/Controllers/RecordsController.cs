@@ -37,7 +37,7 @@ namespace NoobCoders.WebAPI.Controllers
             return Ok(postId);
         }
 
-        [HttpPut("/api/[controller]/posts/{id}/{newText}")]
+        [HttpPatch("/api/[controller]/posts/{id}/{newText}")]
         public async Task<ActionResult> PostUpdate(long id, string newText)
         {
             await _recordsService.UpdatePost(id, newText);
@@ -82,7 +82,7 @@ namespace NoobCoders.WebAPI.Controllers
             return Ok(rubricId);
         }
 
-        [HttpPut("/api/[controller]/rubrics/{id}/{newName}")]
+        [HttpPatch("/api/[controller]/rubrics/{id}/{newName}")]
         public async Task<ActionResult> RubricUpdate(long id, string newName)
         {
             await _recordsService.UpdateRubric(id, newName);
