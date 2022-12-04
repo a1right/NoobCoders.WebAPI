@@ -92,8 +92,6 @@ namespace NoobCoders.Application.Services
             var result =  await _context.Rubrics.Include(r => r.RubricPosts)
                                                        .ThenInclude(rp => rp.Post)
                                                        .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
-            if (result is null)
-                throw new NotFoundException(nameof(Rubric), id);
             return result;
         }
 

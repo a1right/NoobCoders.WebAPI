@@ -26,6 +26,8 @@ namespace NoobCoders.WebAPI.Controllers
         public async Task<ActionResult<PostResponse>> PostDetails(long id)
         {
             var post = await _recordsService.GetPostDetais(id);
+            if (post is null)
+                return BadRequest();
             var result = post.MapToResponse();
             return Ok(result);
         }
@@ -71,6 +73,8 @@ namespace NoobCoders.WebAPI.Controllers
         public async Task<ActionResult<PostResponse>> RubricDetails(long id)
         {
             var rubric = await _recordsService.GetRubricDetails(id);
+            if (rubric is null)
+                return BadRequest();
             var result = rubric.MapToResponse();
             return Ok(result);
         }
