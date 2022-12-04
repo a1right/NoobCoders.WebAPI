@@ -9,10 +9,16 @@ namespace NoobCoders.Application.Interfaces
 
         public Task<long> CreatePost(string text, long rubricId, CancellationToken cancellationToken = default(CancellationToken));
         public Task DeletePost(long id, CancellationToken cancellationToken = default(CancellationToken));
+
+        public Task UpdatePost(long id, string newText, CancellationToken cancellationToken = default(CancellationToken));
         public Task<List<Post>> GetPostsContainsSubstring(string text, CancellationToken cancellationToken = default(CancellationToken));
         public Task<List<Rubric>> GetRubrics(CancellationToken cancellationToken = default(CancellationToken));
 
         public Task<Rubric> GetRubricDetails(long id, CancellationToken cancellationToken = default(CancellationToken));
+
+        public Task<long> CreateRubric(string name, CancellationToken cancellationToken = default(CancellationToken));
+
+        public Task UpdateRubric(long id, string newName, CancellationToken cancellationToken = default(CancellationToken));
         public Task DeleteRubric(long id, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

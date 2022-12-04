@@ -36,6 +36,13 @@ namespace NoobCoders.WebAPI.Controllers
             var postId = await _recordsService.CreatePost(text, rubricId);
             return Ok(postId);
         }
+
+        [HttpPut("/api/[controller]/posts/{id}/{newText}")]
+        public async Task<ActionResult> PostUpdate(long id, string newText)
+        {
+            await _recordsService.UpdatePost(id, newText);
+            return Ok();
+        }
         [HttpDelete("/api/[controller]/posts/{id}")]
         public async Task<ActionResult> PostDelete(long id)
         {
@@ -66,6 +73,20 @@ namespace NoobCoders.WebAPI.Controllers
             var rubric = await _recordsService.GetRubricDetails(id);
             var result = rubric.MapToResponse();
             return Ok(result);
+        }
+
+        [HttpPost("/api/[controller]/rubrics/{name}")]
+        public async Task<ActionResult<long>> RubricCreate(string name)
+        {
+            var rubricId = await _recordsService.CreateRubric(name);
+            return Ok(rubricId);
+        }
+
+        [HttpPut("/api/[controller]/rubrics/{id}/{newName}")]
+        public async Task<ActionResult> RubricUpdate(long id, string newName)
+        {
+            await _recordsService.UpdateRubric(id, newName);
+            return Ok();
         }
         [HttpDelete("/api/[controller]/rubrics/{id}")]
         public async Task<ActionResult> RubricDelete(long id)

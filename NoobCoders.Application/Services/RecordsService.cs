@@ -56,6 +56,15 @@ namespace NoobCoders.Application.Services
             return post.Id;
         }
 
+        public async Task UpdatePost(long id, string newText, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var postForUpdate = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+            if (postForUpdate is null)
+                throw new NotFoundException(nameof(Post), id);
+            postForUpdate.Text = newText;
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task<List<Post>> GetPostsContainsSubstring(string text, CancellationToken cancellationToken = default(CancellationToken))
         {
             var posts = await _elasticClient.SearchAsync<Post>(post =>
@@ -88,6 +97,27 @@ namespace NoobCoders.Application.Services
             return result;
         }
 
+        public async Task<long> CreateRubric(string name, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var rubricExists =
+                await _context.Rubrics.FirstOrDefaultAsync(r => r.Name == name, cancellationToken) is not null;
+            if (rubricExists)
+                throw new RubricNameAlreadyExistsException(name);
+            var rubric = new Rubric() { Name = name };
+            await _context.Rubrics.AddAsync(rubric, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            return rubric.Id;
+        }
+
+        public async Task UpdateRubric(long id, string newName, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var rubricForUpdate = await _context.Rubrics.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+            if (rubricForUpdate is null)
+                throw new NotFoundException(nameof(Rubric), id);
+            rubricForUpdate.Name = newName;
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task DeleteRubric(long id, CancellationToken cancellationToken = default(CancellationToken))
         {
             var rubric = await _context.Rubrics.Include(r => r.RubricPosts)
@@ -103,6 +133,5 @@ namespace NoobCoders.Application.Services
             _context.PostRubrics.RemoveRange(chainigEntities);
             await _context.SaveChangesAsync(cancellationToken);
         }
-
     }
 }
