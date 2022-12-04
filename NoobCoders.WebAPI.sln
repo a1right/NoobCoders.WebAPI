@@ -9,13 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{55DFB062-6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoobCoders.Domain", "NoobCoders.Domain\NoobCoders.Domain.csproj", "{B8AE4350-A68E-448C-91DD-69A4A4F7B5A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoobCoders.Application", "NoobCoders.Application\NoobCoders.Application.csproj", "{1FAD6971-06E1-434E-83D3-8B4B8C1A6E55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoobCoders.Application", "NoobCoders.Application\NoobCoders.Application.csproj", "{1FAD6971-06E1-434E-83D3-8B4B8C1A6E55}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataLayer", "DataLayer", "{E5539BD7-EED6-4109-96D5-5CED9C7101E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoobCoders.Repository", "NoobCoders.Repository\NoobCoders.Repository.csproj", "{A9749DDD-B6E0-4B58-BBD7-80168ED8711E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoobCoders.Repository", "NoobCoders.Repository\NoobCoders.Repository.csproj", "{A9749DDD-B6E0-4B58-BBD7-80168ED8711E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoobCoders.FullTextSearchRepository", "NoobCodersFullTextSearchRepository\NoobCoders.FullTextSearchRepository.csproj", "{FB2A672B-C852-4DA0-A072-449F6105847C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoobCoders.FullTextSearchRepository", "NoobCodersFullTextSearchRepository\NoobCoders.FullTextSearchRepository.csproj", "{FB2A672B-C852-4DA0-A072-449F6105847C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

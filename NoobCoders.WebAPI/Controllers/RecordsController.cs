@@ -2,6 +2,7 @@
 using NoobCoders.Application.Interfaces;
 using NoobCoders.WebAPI.Common;
 using NoobCoders.WebAPI.Models;
+using NoobCoders.Application.Services;
 
 namespace NoobCoders.WebAPI.Controllers
 {
@@ -27,6 +28,13 @@ namespace NoobCoders.WebAPI.Controllers
         {
             var post = await _recordsService.GetPostDetais(id);
             var result = post.MapToResponse();
+            return Ok(result);
+        }
+
+        [HttpPost("/api/[controller]/posts/{rubricName}/{text}")]
+        public async Task<ActionResult<long>> PostCreate(string text, string rubricName)
+        {
+            var result = await _recordsService.CreatePost(text, rubricName);
             return Ok(result);
         }
         [HttpDelete("/api/[controller]/posts/{id}")]

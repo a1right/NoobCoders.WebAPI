@@ -30,6 +30,25 @@ namespace NoobCoders.Application.Services
                                        .FirstOrDefaultAsync(cancellationToken);
         }
 
+        public async Task<long> CreatePost(string text, string rubricName, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var post = new Post() { Text = text, CreatedDate = DateTime.Now };
+            var rubric = await _context.Rubrics.FirstOrDefaultAsync(r => r.Name == rubricName, cancellationToken);
+            if (rubric is null)
+            {
+                rubric = new Rubric() { Name = rubricName };
+            }
+            var postRubric = new PostRubric()
+            {
+                Post = post,
+                Rubric = rubric,
+            };
+            await _context.PostRubrics.AddAsync(postRubric, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            await _elasticClient.IndexAsync(post, request => request.Index<Post>(), cancellationToken);
+            return post.Id;
+        }
+
         public async Task DeletePost(long id, CancellationToken cancellationToken = default(CancellationToken))
         {
             var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
